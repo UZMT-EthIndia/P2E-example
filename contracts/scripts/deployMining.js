@@ -14,7 +14,7 @@ async function main() {
 
     // ethers is available in the global scope
     const [deployer] = await ethers.getSigners();
-    console.log('>>>>> Signers list: ', await ethers.getSigners());
+    // console.log('>>>>> Signers list: ', await ethers.getSigners());
     console.log(
         "Deploying the contracts with the account:",
         await deployer.getAddress()
