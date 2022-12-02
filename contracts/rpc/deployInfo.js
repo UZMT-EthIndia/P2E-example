@@ -1,7 +1,7 @@
 // [key: contractName], [value: contractAddress]
 
 const addressObject = {
-    GameItemNFT: "0xd78D79F3447744e76e8F661ea3D11371Cbe534Cc"
+    GameItemNFT: "0xf165029bfc1a40a93E5EC3F4d0148066ABA542fd"
 };
 
 exports.addresses = addressObject;

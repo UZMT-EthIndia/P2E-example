@@ -29,7 +29,7 @@ async function main() {
     const Token = await TokenContract.deploy(
         "GameItemNFT",
         "ITEM",
-        "0xC693456266FFfeA845fC5A3636f2FDDB2276F96e"
+        "0xDa280bA8e5382CE631e79E7585267716a67b0835"
     );
     console.log('>>> Deployment in progress...')
     await Token.deployed();

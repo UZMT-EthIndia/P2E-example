@@ -27,8 +27,8 @@ async function main() {
 
     // Mining Game instance
     const Mining = await MiningContract.deploy(
-        "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-        "0xF76cb57df586D9DdEb2BB20652CF633417887Ca3",
+        "0xf165029bfc1a40a93E5EC3F4d0148066ABA542fd",
+        "0xDa280bA8e5382CE631e79E7585267716a67b0835",
     );
     console.log('>>> Deployment in progress...')
     await Mining.deployed();
