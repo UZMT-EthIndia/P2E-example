@@ -44,7 +44,7 @@ contract Mining is ReentrancyGuard, ERC1155Holder {
     function stake(uint256 _tokenId) external nonReentrant {
         // Ensure the player has at least 1 of the token they are trying to stake
         require(
-            pickaxeNftCollection.ownerOf(_tokenId)==msg.sender,
+            pickaxeNftCollection.ownerOf(_tokenId) == msg.sender,
             "You must have at least 1 of the pickaxe you are trying to stake"
         );
 
@@ -107,7 +107,10 @@ contract Mining is ReentrancyGuard, ERC1155Holder {
     function claim() external nonReentrant {
         // Calculate the rewards they are owed, and pay them out.
         uint256 reward = calculateRewards(msg.sender);
-        pickaxeNftCollection.distributeRevenue(playerPickaxe[msg.sender].value, reward);
+        pickaxeNftCollection.distributeRevenue(
+            playerPickaxe[msg.sender].value,
+            reward
+        );
 
         // Update the playerLastUpdate mapping
         playerLastUpdate[msg.sender].isData = true;
@@ -120,11 +123,9 @@ contract Mining is ReentrancyGuard, ERC1155Holder {
     // The rewards rate is 20,000,000 per block.
     // This is calculated using block.timestamp and the playerLastUpdate.
     // If playerLastUpdate or playerPickaxe is not set, then the player has no rewards.
-    function calculateRewards(address _player)
-        public
-        view
-        returns (uint256 _rewards)
-    {
+    function calculateRewards(
+        address _player
+    ) public view returns (uint256 _rewards) {
         // If playerLastUpdate or playerPickaxe is not set, then the player has no rewards.
         if (
             !playerLastUpdate[_player].isData || !playerPickaxe[_player].isData
