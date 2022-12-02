@@ -23,7 +23,7 @@ async function main() {
     console.log("Account balance:", (await deployer.getBalance()).toString());
 
     // Mining Game Contract
-    const MiningContract = await ethers.getContractFactory("Mining");
+    const MiningContract = await ethers.getContractFactory("MiningGame");
 
     // Mining Game instance
     const Mining = await MiningContract.deploy(

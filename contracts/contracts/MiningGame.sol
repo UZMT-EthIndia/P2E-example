@@ -15,7 +15,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "./ERC4907Scholarship.sol";
 
 // contract Mining is ReentrancyGuard, ERC1155Holder {
-contract Mining is ReentrancyGuard {
+contract MiningGame is ReentrancyGuard {
     // Store our two other contracts here (Edition Drop and Token)
     ERC4907Scholarship public immutable pickaxeNftCollection;
     ERC20 public immutable rewardsToken;
