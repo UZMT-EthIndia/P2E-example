@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.css";
 import ShopItem from "./ShopItem";
 
 type Props = {
-  pickaxeContract: EditionDrop;
+  pickaxeContract: SmartContract<any>;
 };
 
 /**

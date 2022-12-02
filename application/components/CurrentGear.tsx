@@ -8,7 +8,7 @@ import styles from "../styles/Home.module.css";
 type Props = {
   miningContract: SmartContract<any>;
   characterContract: EditionDrop;
-  pickaxeContract: EditionDrop;
+  pickaxeContract: SmartContract<any>;
 };
 
 /**

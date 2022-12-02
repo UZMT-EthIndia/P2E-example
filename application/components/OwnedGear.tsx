@@ -11,7 +11,7 @@ import styles from "../styles/Home.module.css";
 import { MINING_CONTRACT_ADDRESS } from "../const/contractAddresses";
 
 type Props = {
-  pickaxeContract: EditionDrop;
+  pickaxeContract: SmartContract<any>;
   miningContract: SmartContract<any>;
 };
 

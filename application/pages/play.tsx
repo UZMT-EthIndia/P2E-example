@@ -17,6 +17,9 @@ import {
   PICKAXE_EDITION_ADDRESS,
 } from "../const/contractAddresses";
 import styles from "../styles/Home.module.css";
+import revenueTokenAbi from "../abi/GameRevenueToken";
+import itemNFTAbi from "../abi/GameItemNFT"
+
 
 export default function Play() {
   const address = useAddress();
@@ -26,11 +29,12 @@ export default function Play() {
     CHARACTER_EDITION_ADDRESS,
     "edition-drop"
   );
+  console.log(itemNFTAbi)
   const { contract: pickaxeContract } = useContract(
     PICKAXE_EDITION_ADDRESS,
-    "edition-drop"
+    itemNFTAbi.abi
   );
-  const { contract: tokenContract } = useContract(GOLD_GEMS_ADDRESS, "token");
+  const { contract: tokenContract } = useContract(GOLD_GEMS_ADDRESS, revenueTokenAbi.abi);
 
   if (!address) {
     return (

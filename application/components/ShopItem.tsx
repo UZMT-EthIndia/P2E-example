@@ -10,7 +10,7 @@ import { PICKAXE_EDITION_ADDRESS } from "../const/contractAddresses";
 import styles from "../styles/Home.module.css";
 
 type Props = {
-  pickaxeContract: EditionDrop;
+  pickaxeContract: SmartContract<any>;
   item: NFT;
 };
 

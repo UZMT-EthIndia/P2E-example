@@ -16,7 +16,7 @@ import { MINING_CONTRACT_ADDRESS } from "../const/contractAddresses";
 
 type Props = {
   miningContract: SmartContract<any>;
-  tokenContract: Token;
+  tokenContract: SmartContract<any>;
 };
 
 /**

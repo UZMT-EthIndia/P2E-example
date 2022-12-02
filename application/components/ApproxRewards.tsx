@@ -29,6 +29,8 @@ export default function ApproxRewards({ miningContract }: Props) {
 
   const [multiplier, setMultiplier] = useState<number>(0);
 
+  const [revenueShareRatio, setRevenueShareRatio] = useState<number>(0);
+
   useEffect(() => {
     (async () => {
       if (!address) return;
@@ -43,6 +45,7 @@ export default function ApproxRewards({ miningContract }: Props) {
       } else {
         setMultiplier(0);
       }
+      
     })();
   }, [address, miningContract]);
 
@@ -57,12 +60,30 @@ export default function ApproxRewards({ miningContract }: Props) {
   }, [amount, everyMillisecondAmount]);
 
   return (
+    <>
     <p style={{ width: 370, overflow: "hidden" }}>
       Earned this session:{" "}
       <b>
         {ethers.utils.formatEther((amount * multiplier).toFixed(0)) ||
           "Error..."}
       </b>
+      <br />
+      <br />
+
+      ᄂRevenue I get:{" "}
+      <b>
+        {ethers.utils.formatEther((amount * multiplier * 0.7 ).toFixed(0)) ||
+          "Error..."}
+      </b>
+      <br />
+      <br />
+
+      ᄂRevenue shared:{" "}
+      <b>
+        {ethers.utils.formatEther((amount * multiplier * 0.3 ).toFixed(0)) ||
+          "Error..."}
+      </b>
     </p>
+    </>
   );
 }
