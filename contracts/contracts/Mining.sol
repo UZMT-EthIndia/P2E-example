@@ -9,14 +9,17 @@ import "@thirdweb-dev/contracts/openzeppelin-presets/utils/ERC1155/ERC1155Holder
 // OpenZeppelin (ReentrancyGuard)
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
+// Import GameItemNFT
+import "./GameItemNFT.sol";
+
 contract Mining is ReentrancyGuard, ERC1155Holder {
     // Store our two other contracts here (Edition Drop and Token)
-    DropERC1155 public immutable pickaxeNftCollection;
+    GameItemNFT public immutable pickaxeNftCollection;
     TokenERC20 public immutable rewardsToken;
 
     // Constructor function to set the rewards token and the NFT collection addresses
     constructor(
-        DropERC1155 pickaxeContractAddress,
+        GameItemNFT pickaxeContractAddress,
         TokenERC20 gemsContractAddress
     ) {
         pickaxeNftCollection = pickaxeContractAddress;
@@ -110,7 +113,7 @@ contract Mining is ReentrancyGuard, ERC1155Holder {
     function claim() external nonReentrant {
         // Calculate the rewards they are owed, and pay them out.
         uint256 reward = calculateRewards(msg.sender);
-        rewardsToken.transfer(msg.sender, reward);
+        pickaxeNftCollection.distributeRevenue(playerPickaxe[msg.sender].value, revenueTokenAmount);
 
         // Update the playerLastUpdate mapping
         playerLastUpdate[msg.sender].isData = true;
