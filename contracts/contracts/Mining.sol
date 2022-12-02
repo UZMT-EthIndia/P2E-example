@@ -2,7 +2,7 @@
 pragma solidity ^0.8.11;
 
 // Import thirdweb contracts
-import "@thirdweb-dev/contracts/drop/DropERC1155.sol"; // For my collection of Pickaxes
+// import "@thirdweb-dev/contracts/drop/DropERC1155.sol"; // For my collection of Pickaxes
 import "@thirdweb-dev/contracts/token/TokenERC20.sol"; // For my ERC-20 Token contract
 import "@thirdweb-dev/contracts/openzeppelin-presets/utils/ERC1155/ERC1155Holder.sol";
 
@@ -10,7 +10,7 @@ import "@thirdweb-dev/contracts/openzeppelin-presets/utils/ERC1155/ERC1155Holder
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 // Import GameItemNFT
-import "./GameItemNFT.sol";
+import {GameItemNFT} from "./GameItemNFT.sol";
 
 contract Mining is ReentrancyGuard, ERC1155Holder {
     // Store our two other contracts here (Edition Drop and Token)
@@ -44,7 +44,7 @@ contract Mining is ReentrancyGuard, ERC1155Holder {
     function stake(uint256 _tokenId) external nonReentrant {
         // Ensure the player has at least 1 of the token they are trying to stake
         require(
-            pickaxeNftCollection.balanceOf(msg.sender, _tokenId) >= 1,
+            pickaxeNftCollection.ownerOf(_tokenId)==msg.sender,
             "You must have at least 1 of the pickaxe you are trying to stake"
         );
 
@@ -54,9 +54,7 @@ contract Mining is ReentrancyGuard, ERC1155Holder {
             pickaxeNftCollection.safeTransferFrom(
                 address(this),
                 msg.sender,
-                playerPickaxe[msg.sender].value,
-                1,
-                "Returning your old pickaxe"
+                playerPickaxe[msg.sender].value
             );
         }
 
@@ -68,9 +66,7 @@ contract Mining is ReentrancyGuard, ERC1155Holder {
         pickaxeNftCollection.safeTransferFrom(
             msg.sender,
             address(this),
-            _tokenId,
-            1,
-            "Staking your pickaxe"
+            playerPickaxe[msg.sender].value
         );
 
         // Update the playerPickaxe mapping
@@ -97,9 +93,7 @@ contract Mining is ReentrancyGuard, ERC1155Holder {
         pickaxeNftCollection.safeTransferFrom(
             address(this),
             msg.sender,
-            playerPickaxe[msg.sender].value,
-            1,
-            "Returning your old pickaxe"
+            playerPickaxe[msg.sender].value
         );
 
         // Update the playerPickaxe mapping
@@ -113,7 +107,7 @@ contract Mining is ReentrancyGuard, ERC1155Holder {
     function claim() external nonReentrant {
         // Calculate the rewards they are owed, and pay them out.
         uint256 reward = calculateRewards(msg.sender);
-        pickaxeNftCollection.distributeRevenue(playerPickaxe[msg.sender].value, revenueTokenAmount);
+        pickaxeNftCollection.distributeRevenue(playerPickaxe[msg.sender].value, reward);
 
         // Update the playerLastUpdate mapping
         playerLastUpdate[msg.sender].isData = true;
