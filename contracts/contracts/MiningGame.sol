@@ -149,7 +149,7 @@ contract MiningGame is ReentrancyGuard {
 
         // Calculate the rewards they are owed
         uint256 rewards = timeDifference *
-            10_000_000_000_000 *
+            10_000_000_000_000_000 *
             (playerPickaxe[_player].value + 1);
 
         // Return the rewards
