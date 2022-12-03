@@ -47,7 +47,8 @@ contract MiningGame is ReentrancyGuard {
     function stake(uint256 _tokenId) external nonReentrant {
         // Ensure the player has at least 1 of the token they are trying to stake
         require(
-            pickaxeNftCollection.ownerOf(_tokenId) == msg.sender,
+            pickaxeNftCollection.ownerOf(_tokenId) == msg.sender ||
+                pickaxeNftCollection.userOf(_tokenId) == msg.sender,
             "You must have at least 1 of the pickaxe you are trying to stake"
         );
 
