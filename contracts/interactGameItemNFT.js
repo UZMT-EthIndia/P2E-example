@@ -30,7 +30,7 @@ const getSymbol = contract.symbol();
 
 // ========== Setters ==========
 
-// const safeMint = contract.safeMint(wallet.address, 1, { gasLimit: 100000 });
+// const safeMint = contract.safeMint(wallet.address, 1, "some-ipfs-uri" { gasLimit: 100000 });
 // const setShareRatio = contract.setShareRatio(1, 7000);
 // const setUser = contract.setUser(1, "0x17512B018D4C524fAfE8dec685e9809549f3aE91", 1672495467, { gasLimit: 100000 });
 // Note: send Reward token to the Mining Contract before distributing the Revenue shares.
