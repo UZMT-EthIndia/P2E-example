@@ -23,13 +23,13 @@ async function main() {
     console.log("Account balance:", (await deployer.getBalance()).toString());
 
     // Token Contract
-    const TokenContract = await ethers.getContractFactory("GameRevenueToken");
+    const TokenContract = await ethers.getContractFactory("GameRewardToken");
 
     // Token instance
     const Token = await TokenContract.deploy(
-        "GameRevenueToken",
-        "RVN",
-        150000  // DECIMAL == 18
+        "GameRewardToken",
+        "REWARD",
+        190000  // DECIMAL == 18
     );
     console.log('>>> Deployment in progress...')
     await Token.deployed();

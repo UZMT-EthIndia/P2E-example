@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract GameRevenueToken is ERC20 {
+contract GameRewardToken is ERC20 {
     constructor(
         string memory _name, // "GameRevenueToken"
         string memory _symbol, // "RVN"
