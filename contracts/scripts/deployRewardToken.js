@@ -29,7 +29,7 @@ async function main() {
     const Token = await TokenContract.deploy(
         "GameRewardToken",
         "REWARD",
-        190000  // DECIMAL == 18
+        250000  // DECIMAL == 18
     );
     console.log('>>> Deployment in progress...')
     await Token.deployed();
