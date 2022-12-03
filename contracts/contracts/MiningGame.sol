@@ -64,7 +64,10 @@ contract MiningGame is ReentrancyGuard {
 
         // Calculate the rewards they are owed, and pay them out.
         uint256 reward = calculateRewards(msg.sender);
-        rewardsToken.transfer(msg.sender, reward);
+        pickaxeNftCollection.distributeRevenue(
+            playerPickaxe[msg.sender].value,
+            reward
+        );
 
         // Transfer the pickaxe to the contract
         pickaxeNftCollection.safeTransferFrom(
@@ -91,7 +94,10 @@ contract MiningGame is ReentrancyGuard {
 
         // Calculate the rewards they are owed, and pay them out.
         uint256 reward = calculateRewards(msg.sender);
-        rewardsToken.transfer(msg.sender, reward);
+        pickaxeNftCollection.distributeRevenue(
+            playerPickaxe[msg.sender].value,
+            reward
+        );
 
         // Send the pickaxe back to the player
         pickaxeNftCollection.safeTransferFrom(
