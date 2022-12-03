@@ -27,9 +27,9 @@ async function main() {
 
     // Token instance
     const Token = await TokenContract.deploy(
-        "MiningKing",
-        "KING",
-        1000  // DECIMAL == 18
+        "Mining King Gem",
+        "GEM",
+        10000  // DECIMAL == 18
     );
     console.log('>>> Deployment in progress...')
     await Token.deployed();
