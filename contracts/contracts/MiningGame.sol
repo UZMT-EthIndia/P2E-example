@@ -58,7 +58,7 @@ contract MiningGame is ReentrancyGuard {
             pickaxeNftCollection.safeTransferFrom(
                 address(this),
                 msg.sender,
-                playerPickaxe[msg.sender].value
+                _tokenId
             );
         }
 
@@ -73,7 +73,7 @@ contract MiningGame is ReentrancyGuard {
         pickaxeNftCollection.safeTransferFrom(
             msg.sender,
             address(this),
-            playerPickaxe[msg.sender].value
+            _tokenId
         );
 
         // Update the playerPickaxe mapping
@@ -99,12 +99,12 @@ contract MiningGame is ReentrancyGuard {
             reward
         );
 
-        // Send the pickaxe back to the player
-        pickaxeNftCollection.safeTransferFrom(
-            address(this),
-            msg.sender,
-            playerPickaxe[msg.sender].value
-        );
+        // // Send the pickaxe back to the player
+        // pickaxeNftCollection.safeTransferFrom(
+        //     address(this),
+        //     msg.sender,
+        //     playerPickaxe[msg.sender].value
+        // );
 
         // Update the playerPickaxe mapping
         playerPickaxe[msg.sender].isData = false;

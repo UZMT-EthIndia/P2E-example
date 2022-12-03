@@ -21,7 +21,8 @@ const contract = new ethers.Contract(address, abi, wallet);
 
 // ========== Getters ==========
 
-const getPlayerPickaxe = contract.getPlayerPickaxe("0xDe264e2133963c9f40e07f290E1D852f7e4e4c7c"); // player address
+// const getPlayerPickaxe = contract.getPlayerPickaxe("0xDe264e2133963c9f40e07f290E1D852f7e4e4c7c"); // player address
+const stake = contract.stake(1, { gasLimit: 1500000 });
 
 // ========== Setters ==========
 
@@ -32,4 +33,5 @@ const getPlayerPickaxe = contract.getPlayerPickaxe("0xDe264e2133963c9f40e07f290E
  * Send method call transactions
 */
 
-sendTransaction(getPlayerPickaxe, varNameToString({ getPlayerPickaxe }));
+// sendTransaction(getPlayerPickaxe, varNameToString({ getPlayerPickaxe }));
+sendTransaction(stake, varNameToString({ stake }));
