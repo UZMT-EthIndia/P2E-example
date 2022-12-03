@@ -26,7 +26,7 @@ const getSymbol = contract.symbol();
 // const getTokenURI = contract.tokenURI(1);
 // const getOwner = contract.ownerOf(2);
 // const getUser = contract.userOf(1);
-const getShareRatio = contract.getShareRatio(1);
+// const getShareRatio = contract.getShareRatio(1);
 
 // ========== Setters ==========
 
@@ -34,7 +34,7 @@ const getShareRatio = contract.getShareRatio(1);
 // const setShareRatio = contract.setShareRatio(1, 7000);
 // const setUser = contract.setUser(1, "0x17512B018D4C524fAfE8dec685e9809549f3aE91", 1672495467, { gasLimit: 100000 });
 // Note: send Reward token to the Mining Contract before distributing the Revenue shares.
-// const distributeRevenue = contract.distributeRevenue(1, utils.parseEther("500"), { gasLimit: 100000 });
+const distributeRevenue = contract.distributeRevenue(1, utils.parseEther("300"), { gasLimit: 100000 });
 
 
 
@@ -47,10 +47,10 @@ const getShareRatio = contract.getShareRatio(1);
 // sendTransaction(getTokenURI, varNameToString({ getTokenURI }));
 // sendTransaction(getOwner, varNameToString({ getOwner }));
 // sendTransaction(getUser, varNameToString({ getUser }));
-sendTransaction(getShareRatio, varNameToString({ getShareRatio }));
+// sendTransaction(getShareRatio, varNameToString({ getShareRatio }));
 
 
 // sendTransaction(safeMint, varNameToString({ safeMint }));
 // sendTransaction(setShareRatio, varNameToString({ setShareRatio }));
 // sendTransaction(setUser, varNameToString({ setUser }));
-// sendTransaction(distributeRevenue, varNameToString({ distributeRevenue }));
+sendTransaction(distributeRevenue, varNameToString({ distributeRevenue }));

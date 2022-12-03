@@ -27,10 +27,10 @@ async function main() {
 
     // Token instance
     const Token = await TokenContract.deploy(
-        "GameItemNFT",
-        "ITEM",
-        // "0x2AA7545f0EB6435f0d892EAA5f8279EF17B25605" // mumbai
-        "0xd78D79F3447744e76e8F661ea3D11371Cbe534Cc" // cronos
+        "pickAxeNFT",
+        "AXE",
+        "0xf05c7390cCfd50c81dB946Bb03cDC502DBF6d8ff" // mumbai
+        // "0x4bAECdBa45727Ce60ee126f871D36D8e74BB36eE" // cronos
     );
     console.log('>>> Deployment in progress...')
     await Token.deployed();
