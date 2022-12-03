@@ -17,24 +17,25 @@ import {
   PICKAXE_EDITION_ADDRESS,
 } from "../const/contractAddresses";
 import styles from "../styles/Home.module.css";
-import revenueTokenAbi from "../abi/GameRevenueToken";
-import itemNFTAbi from "../abi/GameItemNFT"
 
+// import abi json
+import CharacterEditionAbi from "../abi/CharacterEditionAbi.json";
+import GoldGemAbi from "../abi/GoldGemAbi.json";
+import MiningContractAbi from "../abi/MiningContractAbi.json";
+import PickaxeEditionAbi from "../abi/PickaxeEditionAbi.json";
+
+import { ethers } from "ethers";
 
 export default function Play() {
   const address = useAddress();
 
-  const { contract: miningContract } = useContract(MINING_CONTRACT_ADDRESS);
-  const { contract: characterContract } = useContract(
-    CHARACTER_EDITION_ADDRESS,
-    "edition-drop"
-  );
-  console.log(itemNFTAbi)
-  const { contract: pickaxeContract } = useContract(
+  const miningContract = new ethers.Contract(MINING_CONTRACT_ADDRESS, MiningContractAbi);
+  const characterContract = new ethers.Contract(CHARACTER_EDITION_ADDRESS, CharacterEditionAbi);
+  const pickaxeContract = new ethers.Contract(
     PICKAXE_EDITION_ADDRESS,
-    itemNFTAbi.abi
+    PickaxeEditionAbi
   );
-  const { contract: tokenContract } = useContract(GOLD_GEMS_ADDRESS, revenueTokenAbi.abi);
+  const { contract: tokenContract } = useContract(GOLD_GEMS_ADDRESS, GoldGemAbi);
 
   if (!address) {
     return (
