@@ -98,7 +98,7 @@ contract ERC4907Scholarship is ERC4907, Ownable {
             );
             return true;
         }
-        uint256 tokenAmountForOwner = (10000 * revenueTokenAmount) / shareRatio; // shareRatio never be zero at this point.
+        uint256 tokenAmountForOwner = (shareRatio * revenueTokenAmount) / 10000; // shareRatio never be zero at this point.
         uint256 tokenAmountForUser = revenueTokenAmount - tokenAmountForOwner;
 
         _token.transfer(ownerOf(tokenId), tokenAmountForOwner); // send token from `msg.sender`
