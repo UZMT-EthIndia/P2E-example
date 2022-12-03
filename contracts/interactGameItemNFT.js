@@ -15,7 +15,7 @@ const privateKey = process.env.DEPLOY_PRIVATE_KEY; // Deployer's private key
 const wallet = new ethers.Wallet(privateKey, provider);
 const contract = new ethers.Contract(address, abi, wallet);
 
-/**
+/**`
  * Contract methods promise
 */
 
@@ -80,7 +80,7 @@ sendTransaction(getOwner, varNameToString({ getOwner }));
 // const setShareRatio = contract.setShareRatio(15, 3000);
 // sendTransaction(setShareRatio, varNameToString({ setShareRatio }));
 
-// ========== step 2.5. transfer NFT to JD ==========
+// ========== step 2.5. transfer NFT to JD & YJ ==========
 const JD_address = "0x2146F9FcCc99Cb8b981db7761235Ab23f1058D0f";
 const YJ_address = "0x17512B018D4C524fAfE8dec685e9809549f3aE91"
 // const transferFrom = contract.transferFrom(wallet.address, JD_address, 5, { gasLimit: 1000000 }); // from, to, tokenId
