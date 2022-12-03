@@ -1,11 +1,10 @@
 import { useAddress } from "@thirdweb-dev/react";
-import { SmartContract } from "@thirdweb-dev/sdk";
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import ContractMappingResponse from "../types/ContractMappingResponse";
 
 type Props = {
-  miningContract: SmartContract<any>;
+  miningContract: Contract;
 };
 
 // This component gives a very rough estimation of how many tokens have been earned in the current session
@@ -15,7 +14,7 @@ type Props = {
 // This is a rough estimation of how many tokens have been earned in the current session
 
 export default function ApproxRewards({ miningContract }: Props) {
-  const address = useAddress();
+  const address = localStorage && localStorage.getItem("ownerAddress");
 
   // We can kick off a timer when this component is mounted
   // Each 2.1 seconds, we can update the amount of tokens earned
@@ -70,7 +69,7 @@ export default function ApproxRewards({ miningContract }: Props) {
       <br />
       <br />
 
-      ᄂRevenue I get:{" "}
+      - Revenue I get:{" "}
       <b>
         {ethers.utils.formatEther((amount * multiplier * 0.7 ).toFixed(0)) ||
           "Error..."}
@@ -78,7 +77,7 @@ export default function ApproxRewards({ miningContract }: Props) {
       <br />
       <br />
 
-      ᄂRevenue shared:{" "}
+      - Revenue shared:{" "}
       <b>
         {ethers.utils.formatEther((amount * multiplier * 0.3 ).toFixed(0)) ||
           "Error..."}

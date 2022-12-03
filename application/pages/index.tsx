@@ -9,6 +9,7 @@ import {
 import { CHARACTER_EDITION_ADDRESS } from "../const/contractAddresses";
 import MintContainer from "../components/MintContainer";
 import { useRouter } from "next/router";
+import Navbar from "../components/Navbar";
 
 const Home: NextPage = () => {
   const { contract: editionDrop } = useContract(
@@ -16,7 +17,7 @@ const Home: NextPage = () => {
     "edition-drop"
   );
 
-  const address = useAddress();
+  const address = localStorage && localStorage.getItem("ownerAddress");
   const router = useRouter();
 
   const {
@@ -29,7 +30,7 @@ const Home: NextPage = () => {
   if (!address) {
     return (
       <div className={styles.container}>
-        <ConnectWallet colorMode="dark" />
+        <Navbar/>
       </div>
     );
   }

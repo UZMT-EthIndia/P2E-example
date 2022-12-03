@@ -9,7 +9,7 @@ const GoldGem = (
 );
 
 type Props = {
-  pickaxe: NFT | undefined;
+  pickaxe: any | undefined;
 };
 
 export default function GameplayAnimation({ pickaxe }: Props) {

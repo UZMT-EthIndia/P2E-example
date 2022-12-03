@@ -9,7 +9,6 @@ import { CHARACTER_EDITION_ADDRESS } from "../const/contractAddresses";
 import styles from "../styles/Home.module.css";
 
 export default function MintContainer() {
-  const address = useAddress();
 
   return (
     <div className={styles.collectionContainer}>

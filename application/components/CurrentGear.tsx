@@ -7,16 +7,13 @@ import styles from "../styles/Home.module.css";
 import { Contract } from "ethers";
 import { MediaRenderer } from "@thirdweb-dev/react";
 import axios from "axios";
+import convertIpfsUrlToGatewayUrl from "../utils/convertIpfsUrlToGatewayUrl";
 
 type Props = {
   miningContract: Contract;
-  characterContract: Contract;
+  // characterContract: Contract;
   pickaxeContract: Contract;
 };
-
-function convertIpfsUrlToGatewayUrl(ipfsUrl: string) {
-  return `https://ipfs.io/ipfs/${ipfsUrl.split("//").pop()}`;
-}
 
 /**
  * This component shows the:
@@ -25,11 +22,15 @@ function convertIpfsUrlToGatewayUrl(ipfsUrl: string) {
  */
 export default function CurrentGear({
   miningContract,
-  characterContract,
+  // characterContract,
   pickaxeContract,
 }: Props) {
   console.log('here');
-  const address = useAddress();
+  let address;
+
+  if (typeof window !== 'undefined') {
+    address = localStorage && localStorage.getItem('ownerAddress');
+  }
   
   const [pickaxe, setPickaxe] = useState<any>();
   const [playerNft, setPlayerNft] = useState<any>();
@@ -37,15 +38,18 @@ export default function CurrentGear({
   useEffect(() => {
     console.log('characterContract useEffect called');
     (async() => {
-      const playerNftURI = convertIpfsUrlToGatewayUrl(await characterContract.uri(0))
-      console.log('playerNftURI 원본', await characterContract.uri(0))
+      const sampleURI = 'ipfs://Qmf9csTfndWRgH2z35WUBm9jTuQKfSv1dJC9YKW6iTZkDP/0';
+      // const playerNftURI = convertIpfsUrlToGatewayUrl(await characterContract.uri(0))
+      const playerNftURI = convertIpfsUrlToGatewayUrl(sampleURI)
+
+      console.log('playerNftURI 원본', sampleURI)
       console.log("playerNftURI", playerNftURI);
       axios.get(playerNftURI).then((res) => {
         console.log("playerNftSet", res.data);
         setPlayerNft(res.data);
       });
     })();
-  }, [characterContract]);
+  }, []);
 
   useEffect(() => {
     console.log('useEffect!!!');
@@ -53,11 +57,11 @@ export default function CurrentGear({
       console.log('address', address);
 
       if (!address) return;
-
+      
       const p = await miningContract.getPlayerPickaxe(
         address
       );
-      
+      console.log('p', p);
       // Now we have the tokenId of the equipped pickaxe, if there is one, fetch the metadata for it
       if (p.isData) {
         const pickaxeTokenURI = convertIpfsUrlToGatewayUrl(await pickaxeContract.tokenURI(p.value));

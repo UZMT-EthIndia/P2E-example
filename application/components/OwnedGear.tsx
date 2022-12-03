@@ -1,15 +1,19 @@
 import {
-  ThirdwebNftMedia,
+  MediaRenderer,
   useAddress,
-  useOwnedNFTs,
+  useContract,
   Web3Button,
 } from "@thirdweb-dev/react";
-import { EditionDrop, SmartContract } from "@thirdweb-dev/sdk";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LoadingSection from "./LoadingSection";
 import styles from "../styles/Home.module.css";
-import { MINING_CONTRACT_ADDRESS } from "../const/contractAddresses";
-import { Contract } from "ethers";
+import { MINING_CONTRACT_ADDRESS, PICKAXE_EDITION_ADDRESS } from "../const/contractAddresses";
+import { Contract, ethers } from "ethers";
+import convertIpfsUrlToGatewayUrl from "../utils/convertIpfsUrlToGatewayUrl";
+import getOwnerOrUser from "../utils/getOwnerOrUser";
+import axios from "axios";
+import { PROVIDER_URL } from "../const/providerURL";
+import { useContractWrite } from "@thirdweb-dev/react";
 
 type Props = {
   pickaxeContract: Contract;
@@ -22,59 +26,99 @@ type Props = {
  * - A stake button underneath each of them to equip it
  */
 export default function OwnedGear({ pickaxeContract, miningContract }: Props) {
-  const address = useAddress();
-  const { data: ownedPickaxes, isLoading } = useOwnedNFTs(
-    pickaxeContract,
-    address
-  );
+  let address:string|null = '0x17512B018D4C524fAfE8dec685e9809549f3aE91';
 
-  if (isLoading) {
-    return <LoadingSection />;
+  if (typeof window !== 'undefined') {
+    address = localStorage && localStorage.getItem('ownerAddress');
   }
 
-  async function equip(id: string) {
+  async function equip(id: number) {
     if (!address) return;
+    console.log('pickaxeContract', pickaxeContract);
+    console.log('address', typeof(address), address);
 
     // The contract requires approval to be able to transfer the pickaxe
-    const hasApproval = await pickaxeContract.isApproved(
+    const hasApproval = await pickaxeContract.isApprovedForAll(
       address,
       MINING_CONTRACT_ADDRESS
     );
-
+    console.log("hasApproval", hasApproval);
+    
+    // const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL);
+    // const signer = provider.getSigner();
+    // console.log('signer', signer);
     if (!hasApproval) {
-      await pickaxeContract.setApprovalForAll(MINING_CONTRACT_ADDRESS, true);
+      const approveResult = await pickaxeContract.approve(MINING_CONTRACT_ADDRESS, id, { gasLimit: 1000000 });
+      console.log('approveResult', approveResult);
     }
-
-    await miningContract.call("stake", id);
+    console.log('bbbb');
+    const stakeResult = await miningContract.stake(id, { gasLimit: 1000000 });
+    console.log('stakeResult', stakeResult);
 
     // Refresh the page
-    window.location.reload();
+    // window.location.reload();
   }
+
+  const [ownedPickaxes, setOwnedPickaxes] = useState<any>(undefined);
+
+  useEffect(() => { (async () => {
+    const pickaxeList = [];
+    for (let i=11; i<=15 ; i++) {
+      console.log('address', address)
+      if (await getOwnerOrUser(pickaxeContract, i, address)) {
+        const pickaxeTokenURI = convertIpfsUrlToGatewayUrl(await pickaxeContract.tokenURI(i));
+        console.log('pickaxeTokenURI', pickaxeTokenURI);
+        const pickaxeMetadata = (await axios.get(pickaxeTokenURI)).data;
+        pickaxeList.push(pickaxeMetadata);
+      }
+    }
+
+    console.log('pickaxeList', pickaxeList);
+    setOwnedPickaxes(pickaxeList);
+    })();
+  }, [pickaxeContract, address]);
+    
+  // log owned pickaxes using useeffect
+  useEffect(() => {
+    console.log('ownedPickaxes', ownedPickaxes);
+  }, [ownedPickaxes]);
 
   return (
     <>
-      <div className={styles.nftBoxGrid}>
-        {ownedPickaxes?.map((p) => (
-          <div className={styles.nftBox} key={p.metadata.id.toString()}>
-            <ThirdwebNftMedia
-              metadata={p.metadata}
-              className={`${styles.nftMedia} ${styles.spacerTop}`}
-              height={"64"}
-            />
-            <h3>{p.metadata.name}</h3>
+      {
+        (ownedPickaxes!==undefined)
+          ?
+            <div className={styles.nftBoxGrid}>
+              {ownedPickaxes?.map((p) => (
+                <div className={styles.nftBox} key={p.tokenId.toString()}>
+                  <MediaRenderer 
+                    src={convertIpfsUrlToGatewayUrl(p.image)}
+                    className={`${styles.nftMedia} ${styles.spacerTop}`}
+                    height={"64"}
+                  />
 
-            <div className={styles.smallMargin}>
-              <Web3Button
-                colorMode="dark"
-                contractAddress={MINING_CONTRACT_ADDRESS}
-                action={() => equip(p.metadata.id)}
-              >
-                Equip
-              </Web3Button>
+                  <h3>{p.name}</h3>
+
+                  <div className={styles.smallMargin}>
+                    {/* <Button
+                      colorMode="dark"
+                      contractAddress={MINING_CONTRACT_ADDRESS}
+                      action={() => equip(p.tokenId.toString())}
+                    >
+                      Equip
+                    </Web3Button> */}
+                    {/* Button */}
+                    <button onClick= {()=>equip(p.tokenId.toString())}>
+                      Equip
+                    </button>
+                    
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
+          : 
+            <LoadingSection />
+        }
     </>
   );
 }

@@ -24,47 +24,48 @@ import CharacterEditionAbi from "../abi/CharacterEditionAbi.json";
 import GoldGemAbi from "../abi/GoldGemAbi.json";
 import MiningContractAbi from "../abi/MiningContractAbi.json";
 import PickaxeEditionAbi from "../abi/PickaxeEditionAbi.json";
+import { PROVIDER_URL } from "../const/providerURL";
 
 import { ethers } from "ethers";
+import Navbar from "../components/Navbar";
 
 export default function Play() {
-  const address = useAddress();
+  let address:string|null = '0x17512B018D4C524fAfE8dec685e9809549f3aE91';
+  let signer;
 
-  const PROVIDER_URL = 'https://rpc.ankr.com/polygon_mumbai'
-  const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL)
+  if (typeof window !== 'undefined') {
+    address = localStorage && localStorage.getItem('ownerAddress');
+    // const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL)
+    signer = new ethers.providers.Web3Provider((window as any).ethereum).getSigner();
+    
+  }
 
-  const miningContract = new ethers.Contract(MINING_CONTRACT_ADDRESS, MiningContractAbi, provider);
+  
+  const miningContract = new ethers.Contract(MINING_CONTRACT_ADDRESS, MiningContractAbi, signer);
 
-  const characterContract = new ethers.Contract(CHARACTER_EDITION_ADDRESS, CharacterEditionAbi, provider);
+  // const characterContract = new ethers.Contract(CHARACTER_EDITION_ADDRESS, CharacterEditionAbi, signer);
 
   const pickaxeContract = new ethers.Contract(
     PICKAXE_EDITION_ADDRESS,
     PickaxeEditionAbi,
-    provider
+    signer
   );
-
-  const tokenContract = new ethers.Contract(GOLD_GEMS_ADDRESS, GoldGemAbi, provider);
+  const tokenContract = new ethers.Contract(GOLD_GEMS_ADDRESS, GoldGemAbi, signer);
   
   console.log('start')
 
-  if (!address) {
-    return (
-      <div className={styles.container}>
-        <ConnectWallet colorMode="dark" />
-      </div>
-    );
-  }
-
   return (
     <div className={styles.container}>
+      <Navbar/>
+
       {miningContract &&
-      characterContract &&
+      // characterContract &&
       tokenContract &&
       pickaxeContract ? (
         <div className={styles.mainSection}>
           <CurrentGear
             miningContract={miningContract}
-            characterContract={characterContract}
+            // characterContract={characterContract}
             pickaxeContract={pickaxeContract}
           />
           {/* <Rewards
@@ -104,35 +105,30 @@ export default function Play() {
       <LoadingSection />
     )}
 
+    <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
+
+    {/* {pickaxeContract && tokenContract ? (
+      <>
+        <h2 className={`${styles.noGapTop} ${styles.noGapBottom}`}>Shop</h2>
+        <div
+          style={{
+            width: "100%",
+            minHeight: "10rem",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 8,
+          }}
+        >
+          <Shop pickaxeContract={pickaxeContract} />
+        </div>
+      </>
+    ) : (
+      <LoadingSection />
+    )
+    } */}
+
     </div>
-
-    // 아직 테스트 안 해본 애들
-    // <div className={styles.container}>
-
-      
-
-    //   <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
-
-    //   {pickaxeContract && tokenContract ? (
-    //     <>
-    //       <h2 className={`${styles.noGapTop} ${styles.noGapBottom}`}>Shop</h2>
-    //       <div
-    //         style={{
-    //           width: "100%",
-    //           minHeight: "10rem",
-    //           display: "flex",
-    //           flexDirection: "row",
-    //           justifyContent: "center",
-    //           alignItems: "center",
-    //           marginTop: 8,
-    //         }}
-    //       >
-    //         <Shop pickaxeContract={pickaxeContract} />
-    //       </div>
-    //     </>
-    //   ) : (
-    //     <LoadingSection />
-    //   )
-    // </div> 
   );
 }

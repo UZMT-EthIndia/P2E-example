@@ -26,7 +26,11 @@ type Props = {
  * - The amount this user can claim from the mining contract
  */
 export default function Rewards({ miningContract, tokenContract }: Props) {
-  const address = useAddress();
+  let address;
+
+  if (typeof window !== 'undefined') {
+    address = localStorage && localStorage.getItem('ownerAddress');
+  }
 
   const { data: tokenMetadata } = useMetadata(tokenContract);
   const { data: currentBalance } = useTokenBalance(tokenContract, address);
