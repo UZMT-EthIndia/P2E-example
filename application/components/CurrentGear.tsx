@@ -6,12 +6,17 @@ import GameplayAnimation from "./GameplayAnimation";
 import styles from "../styles/Home.module.css";
 import { Contract } from "ethers";
 import { MediaRenderer } from "@thirdweb-dev/react";
+import axios from "axios";
 
 type Props = {
   miningContract: Contract;
   characterContract: Contract;
   pickaxeContract: Contract;
 };
+
+function convertIpfsUrlToGatewayUrl(ipfsUrl: string) {
+  return `https://ipfs.io/ipfs/${ipfsUrl.split("//").pop()}`;
+}
 
 /**
  * This component shows the:
@@ -33,10 +38,14 @@ export default function CurrentGear({
   useEffect(() => {
     console.log('characterContract useEffect called');
     (async() => {
-      const playerNftTemp = await characterContract.uri(0)
-      console.log("playerNftTemp", playerNftTemp);
-
-      setPlayerNft( playerNftTemp );
+      const playerNftURI = convertIpfsUrlToGatewayUrl(await characterContract.uri(0))
+      console.log('playerNftURI 원본', await characterContract.uri(0))
+      console.log("playerNftURI", playerNftURI);
+      axios.get(playerNftURI).then((res) => {
+        console.log("playerNftSet", res.data);
+        setPlayerNft(res.data);
+      });
+      // setPlayerNft( playerNftTemp );
     })();
   }, [characterContract]);
 
@@ -50,7 +59,6 @@ export default function CurrentGear({
       const p = await miningContract.getPlayerPickaxe(
         address
       );
-      console.log('p', p);
       
       // Now we have the tokenId of the equipped pickaxe, if there is one, fetch the metadata for it
       if (p.isData) {
@@ -74,7 +82,7 @@ export default function CurrentGear({
         {/* Currently equipped player */}
         <div style={{ outline: "1px solid grey", borderRadius: 16 }}>
           {playerNft && (
-            <MediaRenderer src={playerNft?.metadata} height={"64"} />
+            <MediaRenderer src={convertIpfsUrlToGatewayUrl(playerNft.image)} height={"64"} />
           )}
         </div>
         {/* Currently equipped pickaxe */}
