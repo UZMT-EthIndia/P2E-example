@@ -45,7 +45,6 @@ export default function CurrentGear({
         console.log("playerNftSet", res.data);
         setPlayerNft(res.data);
       });
-      // setPlayerNft( playerNftTemp );
     })();
   }, [characterContract]);
 
@@ -62,7 +61,10 @@ export default function CurrentGear({
       
       // Now we have the tokenId of the equipped pickaxe, if there is one, fetch the metadata for it
       if (p.isData) {
-        const pickaxeMetadata = await pickaxeContract.tokenURI(p.value);
+        const pickaxeTokenURI = convertIpfsUrlToGatewayUrl(await pickaxeContract.tokenURI(p.value));
+        console.log('pickaxeTokenURI', pickaxeTokenURI);
+        const pickaxeMetadata = await axios.get(pickaxeTokenURI);
+        console.log('pickaxeMetadata', pickaxeMetadata);
         setPickaxe(pickaxeMetadata);
       }
     })();
@@ -89,11 +91,11 @@ export default function CurrentGear({
         <div
           style={{ outline: "1px solid grey", borderRadius: 16, marginLeft: 8 }}
         >
-          {/* {pickaxe && (
+          {/* // todo : 잘 되는지 확인해보기 */}
+          {pickaxe && (
             // @ts-ignore
-            <ThirdwebNftMedia metadata={pickaxe.metadata} height={"64"} />
-          )} */}
-          {pickaxe}
+            <MediaRenderer src={convertIpfsUrlToGatewayUrl(pickaxe.image)} height={"64"} />
+          )}
         </div>
       </div>
 
