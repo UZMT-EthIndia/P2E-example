@@ -15,6 +15,10 @@ module.exports = {
     mumbai: {
       url: "https://matic-mumbai.chainstacklabs.com",
       accounts: [process.env.DEPLOY_PRIVATE_KEY]
+    },
+    cronos: {
+      url: "https://evm-t3.cronos.org",
+      accounts: [process.env.DEPLOY_PRIVATE_KEY]
     }
   }
 };
