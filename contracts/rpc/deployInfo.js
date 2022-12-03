@@ -1,13 +1,13 @@
 // [key: contractName], [value: contractAddress]
 
 const addressObject = {
-    // GameItemNFT: "0x0F1B9398d84947d9DB804c92fe8A2F86Ba72E13E", // mumbai
-    GameItemNFT: "0xF162A6993eBc4DDC7941294f4a1D7b1406751CCD", // cronos
+    GameItemNFT: "0x6C6034dcb78891874133CB0FdB243D0e3cA7e767", // mumbai
+    // GameItemNFT: "0xe088b366ee6f76f807cD05E95DE686130b56A461", // cronos
 
-    // MiningGame: "0xeC0628c77C9f0f8eC82F4De6F43b927C170C4b83", // mumbai
-    MiningGame: "0x11211Eb9B6754b5148BdF10c5f971FA81e233fA9", // cronos
+    MiningGame: "0x27Ab481a528dAC6bB2a09a79D4d41E3F19479aaA", // mumbai
+    // MiningGame: "0xC1721ffBa6740BbFcda835b0A2379e5B43Abe006", // cronos
 };
 
 exports.addresses = addressObject;
-// exports.rpcProviderUrl = "https://matic-mumbai.chainstacklabs.com";  // mumbai testnet
-exports.rpcProviderUrl = "https://evm-t3.cronos.org";  // cronos testnet
+exports.rpcProviderUrl = "https://matic-mumbai.chainstacklabs.com";  // mumbai testnet
+// exports.rpcProviderUrl = "https://evm-t3.cronos.org";  // cronos testnet

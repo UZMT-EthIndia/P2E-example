@@ -30,8 +30,8 @@ const contract = new ethers.Contract(address, abi, wallet);
 // const getTokenURI = contract.tokenURI(1);
 // sendTransaction(getTokenURI, varNameToString({ getTokenURI }));
 
-const getOwner = contract.ownerOf(14);
-sendTransaction(getOwner, varNameToString({ getOwner }));
+// const getOwner = contract.ownerOf(13);
+// sendTransaction(getOwner, varNameToString({ getOwner }));
 
 // const getUser = contract.userOf(1);
 // sendTransaction(getUser, varNameToString({ getUser }));
@@ -71,7 +71,7 @@ sendTransaction(getOwner, varNameToString({ getOwner }));
 // const safeMint14 = contract.safeMint(wallet.address, 14, "ipfs://QmYKMJvLvwTeBRvgSGUgERoDeEvAHacgXGeE2GgsqGLSaM/axe0014.json", { gasLimit: 1000000 });
 // sendTransaction(safeMint14, varNameToString({ safeMint14 }));
 
-// const safeMint15 = contract.safeMint(wallet.address, 15, "ipfs://QmYKMJvLvwTeBRvgSGUgERoDeEvAHacgXGeE2GgsqGLSaM/axe0015.json", { gasLimit: 10009000 });
+// const safeMint15 = contract.safeMint(wallet.address, 15, "ipfs://QmYKMJvLvwTeBRvgSGUgERoDeEvAHacgXGeE2GgsqGLSaM/axe0015.json", { gasLimit: 1000000 });
 // sendTransaction(safeMint15, varNameToString({ safeMint15 }));
 
 

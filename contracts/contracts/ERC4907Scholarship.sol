@@ -84,7 +84,13 @@ contract ERC4907Scholarship is ERC4907, Ownable {
     function distributeRevenue(
         uint256 tokenId,
         uint256 revenueTokenAmount
-    ) public onlyOwner returns (bool) {
+    )
+        public
+        returns (
+            // ) public onlyOwner returns (bool) {
+            bool
+        )
+    {
         uint256 shareRatio = getShareRatio(tokenId);
         // if invalid user
         if (userOf(tokenId) == address(0) || shareRatio == 0) {
