@@ -57,62 +57,59 @@ export default function Play() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.mainSection}>
-        <CurrentGear
-          miningContract={miningContract}
-          characterContract={characterContract}
-          pickaxeContract={pickaxeContract}
-        />
-      </div>
+      {miningContract &&
+      characterContract &&
+      tokenContract &&
+      pickaxeContract ? (
+        <div className={styles.mainSection}>
+          <CurrentGear
+            miningContract={miningContract}
+            characterContract={characterContract}
+            pickaxeContract={pickaxeContract}
+          />
+          {/* <Rewards
+            miningContract={miningContract}
+            tokenContract={tokenContract}
+          /> */}
+        </div>
+      ) : (
+        <LoadingSection />
+      )}
+
+    <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
+
+    {pickaxeContract && miningContract ? (
+      <>
+        <h2 className={`${styles.noGapTop} ${styles.noGapBottom}`}>
+          Your Owned Pickaxes
+        </h2>
+        <div
+          style={{
+            width: "100%",
+            minHeight: "10rem",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 8,
+          }}
+        >
+          <OwnedGear
+            pickaxeContract={pickaxeContract}
+            miningContract={miningContract}
+          />
+        </div>
+      </>
+    ) : (
+      <LoadingSection />
+    )}
+
     </div>
 
+    // 아직 테스트 안 해본 애들
     // <div className={styles.container}>
-    //   {miningContract &&
-    //   characterContract &&
-    //   tokenContract &&
-    //   pickaxeContract ? (
-    //     <div className={styles.mainSection}>
-    //       <CurrentGear
-    //         miningContract={miningContract}
-    //         characterContract={characterContract}
-    //         pickaxeContract={pickaxeContract}
-    //       />
-    //       {/* <Rewards
-    //         miningContract={miningContract}
-    //         tokenContract={tokenContract}
-    //       /> */}
-    //     </div>
-    //   ) : (
-    //     <LoadingSection />
-    //   )}
 
-    //   <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
-
-    //   {pickaxeContract && miningContract ? (
-    //     <>
-    //       <h2 className={`${styles.noGapTop} ${styles.noGapBottom}`}>
-    //         Your Owned Pickaxes
-    //       </h2>
-    //       <div
-    //         style={{
-    //           width: "100%",
-    //           minHeight: "10rem",
-    //           display: "flex",
-    //           flexDirection: "row",
-    //           justifyContent: "center",
-    //           alignItems: "center",
-    //           marginTop: 8,
-    //         }}
-    //       >
-    //         <OwnedGear
-    //           pickaxeContract={pickaxeContract}
-    //           miningContract={miningContract}
-    //         />
-    //       </div>
-    //     </>
-    //   ) : (
-    //     <LoadingSection />
-    //   )}
+      
 
     //   <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
 

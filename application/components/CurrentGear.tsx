@@ -29,8 +29,7 @@ export default function CurrentGear({
   pickaxeContract,
 }: Props) {
   console.log('here');
-  // const address = useAddress();
-  const address = "0x17512B018D4C524fAfE8dec685e9809549f3aE91";
+  const address = useAddress();
   
   const [pickaxe, setPickaxe] = useState<any>();
   const [playerNft, setPlayerNft] = useState<any>();
