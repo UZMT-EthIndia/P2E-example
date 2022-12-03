@@ -47,7 +47,8 @@ contract MiningGame is ReentrancyGuard {
     function stake(uint256 _tokenId) external nonReentrant {
         // Ensure the player has at least 1 of the token they are trying to stake
         require(
-            pickaxeNftCollection.ownerOf(_tokenId) == msg.sender,
+            pickaxeNftCollection.ownerOf(_tokenId) == msg.sender ||
+                pickaxeNftCollection.userOf(_tokenId) == msg.sender,
             "You must have at least 1 of the pickaxe you are trying to stake"
         );
 
@@ -63,7 +64,10 @@ contract MiningGame is ReentrancyGuard {
 
         // Calculate the rewards they are owed, and pay them out.
         uint256 reward = calculateRewards(msg.sender);
-        rewardsToken.transfer(msg.sender, reward);
+        pickaxeNftCollection.distributeRevenue(
+            playerPickaxe[msg.sender].value,
+            reward
+        );
 
         // Transfer the pickaxe to the contract
         pickaxeNftCollection.safeTransferFrom(
@@ -90,7 +94,10 @@ contract MiningGame is ReentrancyGuard {
 
         // Calculate the rewards they are owed, and pay them out.
         uint256 reward = calculateRewards(msg.sender);
-        rewardsToken.transfer(msg.sender, reward);
+        pickaxeNftCollection.distributeRevenue(
+            playerPickaxe[msg.sender].value,
+            reward
+        );
 
         // Send the pickaxe back to the player
         pickaxeNftCollection.safeTransferFrom(
@@ -142,7 +149,7 @@ contract MiningGame is ReentrancyGuard {
 
         // Calculate the rewards they are owed
         uint256 rewards = timeDifference *
-            10_000_000_000_000 *
+            10_000_000_000_000_000 *
             (playerPickaxe[_player].value + 1);
 
         // Return the rewards

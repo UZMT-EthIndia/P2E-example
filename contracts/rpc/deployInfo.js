@@ -1,11 +1,11 @@
 // [key: contractName], [value: contractAddress]
 
 const addressObject = {
-    GameItemNFT: "0x5Fab840eFdc7cf2A694E4185175d7DE1b3313753", // mumbai
-    // GameItemNFT: "0xFeCB8802EaAe5c96D8E7d2a5ec05E9EA9ef8590B", // cronos
+    GameItemNFT: "0x6C6034dcb78891874133CB0FdB243D0e3cA7e767", // mumbai
+    // GameItemNFT: "0xe088b366ee6f76f807cD05E95DE686130b56A461", // cronos
 
-    MiningGame: "0x40421a5DFa326cDda1f0b71086351E3328d190D8", // mumbai
-    // MiningGame: "0x0CBCFc78ddad31B44F7d0f398C60387E3Ff082B0", // cronos
+    MiningGame: "0x27Ab481a528dAC6bB2a09a79D4d41E3F19479aaA", // mumbai
+    // MiningGame: "0xC1721ffBa6740BbFcda835b0A2379e5B43Abe006", // cronos
 };
 
 exports.addresses = addressObject;

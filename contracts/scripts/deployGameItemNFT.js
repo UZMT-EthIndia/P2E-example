@@ -27,10 +27,10 @@ async function main() {
 
     // Token instance
     const Token = await TokenContract.deploy(
-        "pickAxeNFT",
+        "pickAxe NFT",
         "AXE",
-        "0xf05c7390cCfd50c81dB946Bb03cDC502DBF6d8ff" // mumbai
-        // "0x4bAECdBa45727Ce60ee126f871D36D8e74BB36eE" // cronos
+        "0xC1721ffBa6740BbFcda835b0A2379e5B43Abe006" // mumbai
+        // "0x9F1e198F4Ec190B65F330148342b5Ba9E6E324BE" // cronos
     );
     console.log('>>> Deployment in progress...')
     await Token.deployed();

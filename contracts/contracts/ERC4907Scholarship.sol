@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract ERC4907Scholarship is ERC4907, Ownable {
     IERC20 _token; // address of a token for the representation of the revenue.
 
-    mapping(uint256 => uint256) internal _shareRatios;
+    mapping(uint256 => uint256) internal _shareRatios; // tokenId => shareRatio (in bp; 1/10000)
 
     event DistributeRevenue(
         uint256 tokenId,
@@ -83,8 +83,14 @@ contract ERC4907Scholarship is ERC4907, Ownable {
 
     function distributeRevenue(
         uint256 tokenId,
-        uint256 revenueTokenAmount // TODO: check decimals processing
-    ) public onlyOwner returns (bool) {
+        uint256 revenueTokenAmount
+    )
+        public
+        returns (
+            // ) public onlyOwner returns (bool) {
+            bool
+        )
+    {
         uint256 shareRatio = getShareRatio(tokenId);
         // if invalid user
         if (userOf(tokenId) == address(0) || shareRatio == 0) {
