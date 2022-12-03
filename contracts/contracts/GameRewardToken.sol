@@ -9,6 +9,6 @@ contract GameRewardToken is ERC20 {
         string memory _symbol, // "RVN"
         uint256 _initial_supply
     ) ERC20(_name, _symbol) {
-        _mint(address(this), _initial_supply * 10 ** uint(decimals()));
+        _mint(msg.sender, _initial_supply * 10 ** uint(decimals()));
     }
 }

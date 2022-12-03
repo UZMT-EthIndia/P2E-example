@@ -22,14 +22,14 @@ const contract = new ethers.Contract(address, abi, wallet);
 const getName = contract.name();
 const getSymbol = contract.symbol();
 // const getTokenURI = contract.tokenURI(1);
-const safeMint = contract.safeMint(wallet.address, 3, { gasLimit: 100000 });
+// const safeMint = contract.safeMint(wallet.address, 1, { gasLimit: 100000 });
 // const getOwner = contract.ownerOf(2);
-// const getUser = contract.userOf(2);
-// const setShareRatio = contract.setShareRatio(2, 7000);
-// const getShareRatio = contract.getShareRatio(2);
-// const setUser = contract.setUser(2, "0x17512B018D4C524fAfE8dec685e9809549f3aE91", 1672495467);
+// const getUser = contract.userOf(1);
+// const setShareRatio = contract.setShareRatio(1, 7000);
+// const getShareRatio = contract.getShareRatio(1);
+// const setUser = contract.setUser(1, "0x17512B018D4C524fAfE8dec685e9809549f3aE91", 1672495467, { gasLimit: 100000 });
 
-// const distributeRevenue = contract.distributeRevenue(2, utils.parseEther("500"), { gasLimit: 100000 });
+const distributeRevenue = contract.distributeRevenue(1, utils.parseEther("500"), { gasLimit: 100000 });
 
 
 /**
@@ -40,12 +40,12 @@ const safeMint = contract.safeMint(wallet.address, 3, { gasLimit: 100000 });
 // sendTransaction(getSymbol, varNameToString({ getSymbol }));
 
 // sendTransaction(getTokenURI, varNameToString({ getTokenURI }));
-sendTransaction(safeMint, varNameToString({ safeMint }));
+// sendTransaction(safeMint, varNameToString({ safeMint }));
 // sendTransaction(getOwner, varNameToString({ getOwner }));
 // sendTransaction(getUser, varNameToString({ getUser }));
 // sendTransaction(setUser, varNameToString({ setUser }));
 // sendTransaction(setShareRatio, varNameToString({ setShareRatio }));
 // sendTransaction(getShareRatio, varNameToString({ getShareRatio }));
 
-// sendTransaction(distributeRevenue, varNameToString({ distributeRevenue }));
+sendTransaction(distributeRevenue, varNameToString({ distributeRevenue }));
 

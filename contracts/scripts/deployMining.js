@@ -27,10 +27,10 @@ async function main() {
 
     // Mining Game instance
     const Mining = await MiningContract.deploy(
-        // "0xf165029bfc1a40a93E5EC3F4d0148066ABA542fd", // NFT | mumbai
-        // "0xDa280bA8e5382CE631e79E7585267716a67b0835", // ERC20 | mumbai
-        "0x8bcE2Db97cEeb7F6080d05466bc09Cd87D0182a9", // NFT | cronos
-        "0x6FaF9F51f2F5459B607373C303e542Ee27b10361" // ERC20 | cronos
+        "0xC7e89a222956923be27b3F082E3F2fe6b4F008c1", // NFT | mumbai
+        "0xC27460Dea9B607382Df496df9fc3b5Eb30384c52", // ERC20 | mumbai
+        // "0x8bcE2Db97cEeb7F6080d05466bc09Cd87D0182a9", // NFT | cronos
+        // "0x6FaF9F51f2F5459B607373C303e542Ee27b10361" // ERC20 | cronos
 
     );
     console.log('>>> Deployment in progress...')
