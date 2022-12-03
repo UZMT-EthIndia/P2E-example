@@ -4,11 +4,13 @@ import React, { useEffect, useState } from "react";
 import ContractMappingResponse from "../types/ContractMappingResponse";
 import GameplayAnimation from "./GameplayAnimation";
 import styles from "../styles/Home.module.css";
+import { Contract } from "ethers";
+import { MediaRenderer } from "@thirdweb-dev/react";
 
 type Props = {
-  miningContract: SmartContract<any>;
-  characterContract: EditionDrop;
-  pickaxeContract: SmartContract<any>;
+  miningContract: Contract;
+  characterContract: Contract;
+  pickaxeContract: Contract;
 };
 
 /**
@@ -21,23 +23,38 @@ export default function CurrentGear({
   characterContract,
   pickaxeContract,
 }: Props) {
-  const address = useAddress();
-
-  const { data: playerNft } = useNFT(characterContract, 0);
-  const [pickaxe, setPickaxe] = useState<NFT>();
+  console.log('here');
+  // const address = useAddress();
+  const address = "0x17512B018D4C524fAfE8dec685e9809549f3aE91";
+  
+  const [pickaxe, setPickaxe] = useState<any>();
+  const [playerNft, setPlayerNft] = useState<any>();
 
   useEffect(() => {
+    console.log('characterContract useEffect called');
+    (async() => {
+      const playerNftTemp = await characterContract.uri(0)
+      console.log("playerNftTemp", playerNftTemp);
+
+      setPlayerNft( playerNftTemp );
+    })();
+  }, [characterContract]);
+
+  useEffect(() => {
+    console.log('useEffect!!!');
     (async () => {
+      console.log('address', address);
+
       if (!address) return;
 
-      const p = (await miningContract.call(
-        "playerPickaxe",
+      const p = await miningContract.getPlayerPickaxe(
         address
-      )) as ContractMappingResponse;
-
+      );
+      console.log('p', p);
+      
       // Now we have the tokenId of the equipped pickaxe, if there is one, fetch the metadata for it
       if (p.isData) {
-        const pickaxeMetadata = await pickaxeContract.get(p.value);
+        const pickaxeMetadata = await pickaxeContract.tokenURI(p.value);
         setPickaxe(pickaxeMetadata);
       }
     })();
@@ -57,17 +74,18 @@ export default function CurrentGear({
         {/* Currently equipped player */}
         <div style={{ outline: "1px solid grey", borderRadius: 16 }}>
           {playerNft && (
-            <ThirdwebNftMedia metadata={playerNft?.metadata} height={"64"} />
+            <MediaRenderer src={playerNft?.metadata} height={"64"} />
           )}
         </div>
         {/* Currently equipped pickaxe */}
         <div
           style={{ outline: "1px solid grey", borderRadius: 16, marginLeft: 8 }}
         >
-          {pickaxe && (
+          {/* {pickaxe && (
             // @ts-ignore
             <ThirdwebNftMedia metadata={pickaxe.metadata} height={"64"} />
-          )}
+          )} */}
+          {pickaxe}
         </div>
       </div>
 

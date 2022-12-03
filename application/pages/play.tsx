@@ -3,6 +3,7 @@ import {
   useAddress,
   useContract,
   useMetamask,
+  useWalletConnect,
 } from "@thirdweb-dev/react";
 import React from "react";
 import CurrentGear from "../components/CurrentGear";
@@ -29,13 +30,22 @@ import { ethers } from "ethers";
 export default function Play() {
   const address = useAddress();
 
-  const miningContract = new ethers.Contract(MINING_CONTRACT_ADDRESS, MiningContractAbi);
-  const characterContract = new ethers.Contract(CHARACTER_EDITION_ADDRESS, CharacterEditionAbi);
+  const PROVIDER_URL = 'https://rpc.ankr.com/polygon_mumbai'
+  const provider = new ethers.providers.JsonRpcProvider(PROVIDER_URL)
+
+  const miningContract = new ethers.Contract(MINING_CONTRACT_ADDRESS, MiningContractAbi, provider);
+
+  const characterContract = new ethers.Contract(CHARACTER_EDITION_ADDRESS, CharacterEditionAbi, provider);
+
   const pickaxeContract = new ethers.Contract(
     PICKAXE_EDITION_ADDRESS,
-    PickaxeEditionAbi
+    PickaxeEditionAbi,
+    provider
   );
-  const { contract: tokenContract } = useContract(GOLD_GEMS_ADDRESS, GoldGemAbi);
+
+  const tokenContract = new ethers.Contract(GOLD_GEMS_ADDRESS, GoldGemAbi, provider);
+  
+  console.log('start')
 
   if (!address) {
     return (
@@ -47,75 +57,85 @@ export default function Play() {
 
   return (
     <div className={styles.container}>
-      {miningContract &&
-      characterContract &&
-      tokenContract &&
-      pickaxeContract ? (
-        <div className={styles.mainSection}>
-          <CurrentGear
-            miningContract={miningContract}
-            characterContract={characterContract}
-            pickaxeContract={pickaxeContract}
-          />
-          <Rewards
-            miningContract={miningContract}
-            tokenContract={tokenContract}
-          />
-        </div>
-      ) : (
-        <LoadingSection />
-      )}
-
-      <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
-
-      {pickaxeContract && miningContract ? (
-        <>
-          <h2 className={`${styles.noGapTop} ${styles.noGapBottom}`}>
-            Your Owned Pickaxes
-          </h2>
-          <div
-            style={{
-              width: "100%",
-              minHeight: "10rem",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 8,
-            }}
-          >
-            <OwnedGear
-              pickaxeContract={pickaxeContract}
-              miningContract={miningContract}
-            />
-          </div>
-        </>
-      ) : (
-        <LoadingSection />
-      )}
-
-      <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
-
-      {pickaxeContract && tokenContract ? (
-        <>
-          <h2 className={`${styles.noGapTop} ${styles.noGapBottom}`}>Shop</h2>
-          <div
-            style={{
-              width: "100%",
-              minHeight: "10rem",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 8,
-            }}
-          >
-            <Shop pickaxeContract={pickaxeContract} />
-          </div>
-        </>
-      ) : (
-        <LoadingSection />
-      )}
+      <div className={styles.mainSection}>
+        <CurrentGear
+          miningContract={miningContract}
+          characterContract={characterContract}
+          pickaxeContract={pickaxeContract}
+        />
+      </div>
     </div>
+
+    // <div className={styles.container}>
+    //   {miningContract &&
+    //   characterContract &&
+    //   tokenContract &&
+    //   pickaxeContract ? (
+    //     <div className={styles.mainSection}>
+    //       <CurrentGear
+    //         miningContract={miningContract}
+    //         characterContract={characterContract}
+    //         pickaxeContract={pickaxeContract}
+    //       />
+    //       {/* <Rewards
+    //         miningContract={miningContract}
+    //         tokenContract={tokenContract}
+    //       /> */}
+    //     </div>
+    //   ) : (
+    //     <LoadingSection />
+    //   )}
+
+    //   <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
+
+    //   {pickaxeContract && miningContract ? (
+    //     <>
+    //       <h2 className={`${styles.noGapTop} ${styles.noGapBottom}`}>
+    //         Your Owned Pickaxes
+    //       </h2>
+    //       <div
+    //         style={{
+    //           width: "100%",
+    //           minHeight: "10rem",
+    //           display: "flex",
+    //           flexDirection: "row",
+    //           justifyContent: "center",
+    //           alignItems: "center",
+    //           marginTop: 8,
+    //         }}
+    //       >
+    //         <OwnedGear
+    //           pickaxeContract={pickaxeContract}
+    //           miningContract={miningContract}
+    //         />
+    //       </div>
+    //     </>
+    //   ) : (
+    //     <LoadingSection />
+    //   )}
+
+    //   <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
+
+    //   {pickaxeContract && tokenContract ? (
+    //     <>
+    //       <h2 className={`${styles.noGapTop} ${styles.noGapBottom}`}>Shop</h2>
+    //       <div
+    //         style={{
+    //           width: "100%",
+    //           minHeight: "10rem",
+    //           display: "flex",
+    //           flexDirection: "row",
+    //           justifyContent: "center",
+    //           alignItems: "center",
+    //           marginTop: 8,
+    //         }}
+    //       >
+    //         <Shop pickaxeContract={pickaxeContract} />
+    //       </div>
+    //     </>
+    //   ) : (
+    //     <LoadingSection />
+    //   )
+    // </div> 
   );
 }
