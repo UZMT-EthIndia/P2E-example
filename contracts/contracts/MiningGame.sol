@@ -148,4 +148,10 @@ contract MiningGame is ReentrancyGuard {
         // Return the rewards
         return rewards;
     }
+
+    function getPlayerPickaxe(
+        address _player
+    ) public view returns (MapValue memory) {
+        return playerPickaxe[_player];
+    }
 }
