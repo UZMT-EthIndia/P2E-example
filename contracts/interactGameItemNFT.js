@@ -30,7 +30,7 @@ const contract = new ethers.Contract(address, abi, wallet);
 // const getTokenURI = contract.tokenURI(1);
 // sendTransaction(getTokenURI, varNameToString({ getTokenURI }));
 
-// const getOwner = contract.ownerOf(13);
+// const getOwner = contract.ownerOf(1);
 // sendTransaction(getOwner, varNameToString({ getOwner }));
 
 // const getUser = contract.userOf(1);
