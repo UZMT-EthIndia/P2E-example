@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  MediaRenderer,
   ThirdwebNftMedia,
   useAddress,
   useContractRead,
@@ -8,15 +9,16 @@ import {
   Web3Button,
 } from "@thirdweb-dev/react";
 import { SmartContract, Token } from "@thirdweb-dev/sdk";
-import { ethers } from "ethers";
+import { BigNumber, Contract, ethers } from "ethers";
 
 import styles from "../styles/Home.module.css";
 import ApproxRewards from "./ApproxRewards";
 import { MINING_CONTRACT_ADDRESS } from "../const/contractAddresses";
 
 type Props = {
-  miningContract: SmartContract<any>;
-  tokenContract: SmartContract<any>;
+  miningContract: Contract;
+  pickaxeContract: Contract;
+  tokenContract: Contract;
 };
 
 /**
@@ -25,20 +27,21 @@ type Props = {
  * - The amount this wallet holds of this wallet
  * - The amount this user can claim from the mining contract
  */
-export default function Rewards({ miningContract, tokenContract }: Props) {
-  let address;
+export default function Rewards({ miningContract, pickaxeContract, tokenContract }: Props) {
+  let address:any;
 
   if (typeof window !== 'undefined') {
     address = localStorage && localStorage.getItem('ownerAddress');
   }
 
-  const { data: tokenMetadata } = useMetadata(tokenContract);
-  const { data: currentBalance } = useTokenBalance(tokenContract, address);
-  const { data: unclaimedAmount } = useContractRead(
-    miningContract,
-    "calculateRewards",
-    address
-  );
+  let currentBalance;
+  let unclaimedAmount;
+  (async() => {
+    currentBalance = await tokenContract.balanceOf(address);
+    console.log('currentBalance', ethers.utils.formatUnits(currentBalance));
+    unclaimedAmount = await miningContract.calculateRewards(address);
+    console.log('unclaimedAmount', ethers.utils.formatUnits(unclaimedAmount));
+  })();
 
   return (
     <div
@@ -47,31 +50,31 @@ export default function Rewards({ miningContract, tokenContract }: Props) {
       <p>
         Your <b>Gold Gems</b>
       </p>
-
-      {tokenMetadata && (
-        <ThirdwebNftMedia
-          // @ts-ignore
-          metadata={tokenMetadata}
+        <MediaRenderer 
+          src={'https://gateway.ipfscdn.io/ipfs/QmRiQvP9uBRLkth71zfJyURKddbTFU28pmyZTrbRqmgSuZ/0.png'}
           height={"48"}
         />
-      )}
-      <p className={styles.noGapBottom}>
-        Balance: <b>{currentBalance?.displayValue}</b>
-      </p>
-      <p>
-        Unclaimed:{" "}
-        <b>{unclaimedAmount && ethers.utils.formatUnits(unclaimedAmount)}</b>
-      </p>
 
       <ApproxRewards miningContract={miningContract} />
 
       <div className={styles.smallMargin}>
-        <Web3Button
-          contractAddress={MINING_CONTRACT_ADDRESS}
-          action={(contract) => contract.call("claim")}
+        <button
+          onClick={() => {
+            (async() => {
+              unclaimedAmount = await miningContract.calculateRewards(address);
+              const p = await miningContract.getPlayerPickaxe(
+                address
+              );
+              console.log('unclaimedAmount', unclaimedAmount); // ethers.utils.formatUnits(unclaimedAmount));
+              console.log('p.value', p.value);
+              await miningContract.withdraw();
+              const re = await pickaxeContract.distributeRevenue( p.value, unclaimedAmount, { gasLimit: 1000000 });
+              console.log('re', re);
+            })();
+            }}
         >
           Claim
-        </Web3Button>
+        </button>
       </div>
     </div>
   );

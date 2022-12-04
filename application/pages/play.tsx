@@ -40,17 +40,18 @@ export default function Play() {
     
   }
 
-  
   const miningContract = new ethers.Contract(MINING_CONTRACT_ADDRESS, MiningContractAbi, signer);
 
-  // const characterContract = new ethers.Contract(CHARACTER_EDITION_ADDRESS, CharacterEditionAbi, signer);
+  const characterContract = new ethers.Contract(CHARACTER_EDITION_ADDRESS, CharacterEditionAbi, signer);
 
   const pickaxeContract = new ethers.Contract(
     PICKAXE_EDITION_ADDRESS,
     PickaxeEditionAbi,
     signer
   );
+
   const tokenContract = new ethers.Contract(GOLD_GEMS_ADDRESS, GoldGemAbi, signer);
+  // const { contract: tokenContract } = useContract(GOLD_GEMS_ADDRESS, "token");
   
   console.log('start')
 
@@ -68,10 +69,11 @@ export default function Play() {
             // characterContract={characterContract}
             pickaxeContract={pickaxeContract}
           />
-          {/* <Rewards
+          <Rewards
             miningContract={miningContract}
+            pickaxeContract={pickaxeContract}
             tokenContract={tokenContract}
-          /> */}
+          />
         </div>
       ) : (
         <LoadingSection />
@@ -107,7 +109,7 @@ export default function Play() {
 
     <hr className={`${styles.divider} ${styles.bigSpacerTop}`} />
 
-    {/* {pickaxeContract && tokenContract ? (
+    {pickaxeContract && tokenContract ? (
       <>
         <h2 className={`${styles.noGapTop} ${styles.noGapBottom}`}>Shop</h2>
         <div
@@ -127,7 +129,7 @@ export default function Play() {
     ) : (
       <LoadingSection />
     )
-    } */}
+    }
 
     </div>
   );

@@ -10,6 +10,7 @@ import { CHARACTER_EDITION_ADDRESS } from "../const/contractAddresses";
 import MintContainer from "../components/MintContainer";
 import { useRouter } from "next/router";
 import Navbar from "../components/Navbar";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
   const { contract: editionDrop } = useContract(
@@ -17,7 +18,14 @@ const Home: NextPage = () => {
     "edition-drop"
   );
 
-  const address = localStorage && localStorage.getItem("ownerAddress");
+  let address; 
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      address = localStorage && localStorage.getItem("ownerAddress");
+    }
+  },[])
+  
   const router = useRouter();
 
   const {

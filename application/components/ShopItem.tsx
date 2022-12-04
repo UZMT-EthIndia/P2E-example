@@ -11,15 +11,15 @@ import React, { useEffect, useState } from "react";
 import { PICKAXE_EDITION_ADDRESS } from "../const/contractAddresses";
 import styles from "../styles/Home.module.css";
 import convertIpfsUrlToGatewayUrl from "../utils/convertIpfsUrlToGatewayUrl";
-
+import {SmartContract} from "@thirdweb-dev/sdk";
 type Props = {
-  pickaxeContract: SmartContract<any>;
+  pickaxeContract: any;
   item: any;
 };
 
 export default function ShopItem({ item, pickaxeContract }: Props) {
   const [claimCondition, setClaimCondition] = useState(false);
-  let address;
+  let address:any;
 
   if (typeof window !== 'undefined') {
     address = localStorage && localStorage.getItem('ownerAddress');
@@ -51,18 +51,6 @@ export default function ShopItem({ item, pickaxeContract }: Props) {
           GEM
         </b>
       </p>
-
-      <div className={styles.smallMargin}>
-        <Web3Button
-          colorMode="dark"
-          contractAddress={PICKAXE_EDITION_ADDRESS}
-          action={(contract) => contract.erc1155.claim(item.tokenId, 1)}
-          onSuccess={() => alert("Purchased!")}
-          onError={(error) => alert(error)}
-        >
-          Buy
-        </Web3Button>
-      </div>
     </div>
   );
 }

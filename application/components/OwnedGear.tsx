@@ -10,7 +10,7 @@ import styles from "../styles/Home.module.css";
 import { MINING_CONTRACT_ADDRESS, PICKAXE_EDITION_ADDRESS } from "../const/contractAddresses";
 import { Contract, ethers } from "ethers";
 import convertIpfsUrlToGatewayUrl from "../utils/convertIpfsUrlToGatewayUrl";
-import getOwnerOrUser from "../utils/getOwnerOrUser";
+import {getOwnerOrUser} from "../utils/getOwnerOrUser";
 import axios from "axios";
 import { PROVIDER_URL } from "../const/providerURL";
 import { useContractWrite } from "@thirdweb-dev/react";
@@ -89,7 +89,7 @@ export default function OwnedGear({ pickaxeContract, miningContract }: Props) {
         (ownedPickaxes!==undefined)
           ?
             <div className={styles.nftBoxGrid}>
-              {ownedPickaxes?.map((p) => (
+              {ownedPickaxes?.map((p:any) => (
                 <div className={styles.nftBox} key={p.tokenId.toString()}>
                   <MediaRenderer 
                     src={convertIpfsUrlToGatewayUrl(p.image)}

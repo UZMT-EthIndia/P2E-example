@@ -26,7 +26,7 @@ export default function CurrentGear({
   pickaxeContract,
 }: Props) {
   console.log('here');
-  let address;
+  let address:any;
 
   if (typeof window !== 'undefined') {
     address = localStorage && localStorage.getItem('ownerAddress');
